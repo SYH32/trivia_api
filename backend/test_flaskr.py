@@ -76,19 +76,19 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Not Found')
 
-    # def test_delete_question(self):
-    #
-    #     question = Question.query.first()
-    #
-    #     res = self.client().delete('/questions/'+str(question.id))
-    #     data = json.loads(res.data)
-    #
-    #     deleted_question = Question.query.filter(Question.id == question.id).one_or_none()
-    #
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['message'], 'Question with ID ' + str(question.id) + ' is deleted')
-    #     self.assertEqual(deleted_question, None)
+    def test_delete_question(self):
+
+        question = Question.query.first()
+
+        res = self.client().delete('/questions/'+str(question.id))
+        data = json.loads(res.data)
+
+        deleted_question = Question.query.filter(Question.id == question.id).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['message'], 'Question with ID ' + str(question.id) + ' is deleted')
+        self.assertEqual(deleted_question, None)
 
     def test_422_if_question_not_exist(self):
         res = self.client().delete('/questions/1111')
@@ -142,7 +142,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['questions'])
         self.assertTrue(data['total_questions'])
         self.assertTrue(data['categories'])
-        self.assertEqual(data['current_category'], None)
+        self.assertEqual(data['current_category'], str(6))
 
     def test_404_if_category_not_exist(self):
         res = self.client().get('/categories/' + str(1111) + '/questions')
